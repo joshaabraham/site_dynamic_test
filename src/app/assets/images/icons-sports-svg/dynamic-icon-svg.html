@@ -1,0 +1,48 @@
+<div [formGroup]="form">
+  <label [attr.for]="question.key">{{question.label}}</label>
+
+  <div [ngSwitch]="question.controlType">
+
+    <input *ngSwitchCase="'textbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type" />
+
+    <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key">
+      <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+    </select>
+
+    <input *ngSwitchCase="'checkbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type" />
+
+    <input *ngSwitchCase="'radio-buttons'" [formControlName]="question.key" [id]="question.key"
+      [type]="question.type" />
+
+
+    <div *ngSwitchCase="'radio'">
+      <label *ngFor="let opt of question.options">
+        {{opt.key}}
+        <input type="radio" [name]="question.key" [formControlName]="question.key" [value]="opt.value">
+      </label>
+    </div>
+
+
+    <div *ngSwitchCase="'autocomplete'">
+      <input type="question.type" [name]="question.key" [formControl]="question.key" list="dataListOptions" />
+      <datalist id="dataListOptions">
+        <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+      </datalist>
+
+    </div>
+
+    <!-- <div *ngSwithCas="confirmation">
+        <input  [formControlName]="question.key" [id]="question.key" [type]="question.type" />
+        <input  [formControlName]="question.key" [id]="question.key" [type]="question.type" />
+    </div> -->
+
+    
+    <div *ngSwitchCase="'file'">
+        <input [type]="question.type" [name]="question.key" [formControl]="question.key" [id]="question.key"/>
+    </div>
+
+
+  </div>
+
+  <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>
+</div>
